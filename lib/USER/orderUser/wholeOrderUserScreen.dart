@@ -1,24 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
 import '../../models/orders.dart';
 import '../../models/ordersmodel.dart';
 import 'package:intl/intl.dart';
 
-class arriveredOrderAdminScreen extends StatefulWidget {
+import '../../presentation/features/auth/auth_bloc.dart';
+
+class wholeOrdeUserScreen extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => _arriveredOrderAdminScreenState();
+  State<StatefulWidget> createState() => _wholeOrdeUserScreenState();
 }
 
-class _arriveredOrderAdminScreenState extends State<arriveredOrderAdminScreen> {
+class _wholeOrdeUserScreenState extends State<wholeOrdeUserScreen> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return Scaffold(
-        // appBar: AppBar(
-        //   title: const Text("已到"),
-        // ),
+    return BlocBuilder<AuthBloc, AuthState>(
+      builder: (context, state) {
+        if (state is AuthenticatedState) {
+          return
+          Scaffold(
         body: FutureBuilder(
-      future: fetchDataArriveredOrder(http.Client()),
+      future: fetchDataOrder(http.Client(),state.user.userName ?? ""),
       builder: ((context, snapshot) {
         if (snapshot.hasData) {
           return OrdersList(orders: snapshot.data);
@@ -26,6 +30,11 @@ class _arriveredOrderAdminScreenState extends State<arriveredOrderAdminScreen> {
         return const Center(child: CircularProgressIndicator());
       }),
     ));
+  } else {
+          return Container();
+        }
+      },
+    );
   }
 }
 

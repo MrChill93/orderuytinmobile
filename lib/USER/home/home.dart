@@ -61,9 +61,6 @@ class _HomePageOrderState extends State<HomePageOrder> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AuthBloc, AuthState>(
-      builder: (context, state) {
-        if (state is AuthenticatedState) {
           return Scaffold(
             backgroundColor: Colors.black,
             key: _scaffoldKey,
@@ -73,12 +70,10 @@ class _HomePageOrderState extends State<HomePageOrder> {
               items: const [
                 BottomNavigationBarItem(
                     icon: Icon(Icons.shopping_cart), label: "Giỏ hàng"),
-                //    BottomNavigationBarItem(
-                // icon: Icon(Icons.notifications), label: "Thông báo"),
+            
                 BottomNavigationBarItem(
                     icon: Icon(Icons.create), label: "Tạo đơn hàng"),
-                //        BottomNavigationBarItem(
-                // icon: Icon(Icons.notifications), label: "Giỏ hàng"),
+          
                 BottomNavigationBarItem(
                     icon: Icon(Icons.person), label: "Của tôi"),
               ],
@@ -92,10 +87,6 @@ class _HomePageOrderState extends State<HomePageOrder> {
               },
             ),
           );
-        } else {
-          return Container();
-        }
-      },
-    );
+      
   }
 }

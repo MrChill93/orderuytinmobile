@@ -18,7 +18,6 @@ void main() async {
     databaseURL: app.options.databaseURL,
   );
 
-  print(OrderuytinConfig.shared.database?.databaseURL);
 
   runApp(const GlobalBlocProviders());
 }

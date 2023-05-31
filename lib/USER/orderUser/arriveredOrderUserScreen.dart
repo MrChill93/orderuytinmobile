@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
 import '../../models/orders.dart';
 import '../../models/ordersmodel.dart';
 import 'package:intl/intl.dart';
+
+import '../../presentation/features/auth/auth_bloc.dart';
 
 class arriveredOrderUserScreen extends StatefulWidget {
   @override
@@ -13,12 +16,13 @@ class _arriveredOrderUserScreenState extends State<arriveredOrderUserScreen> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return Scaffold(
-        // appBar: AppBar(
-        //   title: const Text("已到"),
-        // ),
+    return BlocBuilder<AuthBloc, AuthState>(
+      builder: (context, state) {
+        if (state is AuthenticatedState) {
+          return
+          Scaffold(
         body: FutureBuilder(
-      future: fetchDataArriveredOrder(http.Client()),
+      future: fetchDataArriveredOrder(http.Client(),state.user.userName ?? ""),
       builder: ((context, snapshot) {
         if (snapshot.hasData) {
           return OrdersList(orders: snapshot.data);
@@ -26,6 +30,11 @@ class _arriveredOrderUserScreenState extends State<arriveredOrderUserScreen> {
         return const Center(child: CircularProgressIndicator());
       }),
     ));
+  } else {
+          return Container();
+        }
+      },
+    );
   }
 }
 

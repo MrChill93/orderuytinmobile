@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
+import 'package:orderuytinmobile/presentation/features/auth/auth_bloc.dart';
 import '../models/orders.dart';
 import '../models/ordersmodel.dart';
 import 'package:intl/intl.dart';
@@ -13,10 +15,13 @@ class _orderDetailScreenState extends State<orderDetailScreen> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return Scaffold(
+    return BlocBuilder<AuthBloc, AuthState>(
+      builder: (context, state) {
+        if (state is AuthenticatedState) {
+          return Scaffold(
         body: SingleChildScrollView(
       child: FutureBuilder(
-        future: fetchDataBoughtOrder(http.Client()),
+        future: fetchDataBoughtOrder(http.Client(),state.user.userName ?? ""),
         builder: ((context, snapshot) {
           if (snapshot.hasData) {
             return OrdersList(orders: snapshot.data);
@@ -25,6 +30,11 @@ class _orderDetailScreenState extends State<orderDetailScreen> {
         }),
       ),
     ));
+ } else {
+          return Container();
+        }
+      },
+    );
   }
 }
 

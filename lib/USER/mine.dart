@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:infinite_scroll_tab_view/infinite_scroll_tab_view.dart';
 import 'package:orderuytinmobile/searchPage.dart';
-import '../ADMIN/orderAdmin/fixOrderAdminScreen.dart';
 import 'orderUser/arriveredOrderUserScreen.dart';
 import 'orderUser/boughtOrderUserScreen.dart';
 import 'orderUser/cancelOrderUserScreen.dart';
@@ -8,6 +8,7 @@ import 'orderUser/complainOrderUserScreen.dart';
 import 'orderUser/deleveriedOrderUserScreen.dart';
 import 'orderUser/finishedOrderUserScreen.dart';
 import 'orderUser/pendingOrderUserScreen.dart';
+import 'orderUser/wholeOrderUserScreen.dart';
 
 void main(List<String> args) {
   runApp(const Mine());
@@ -18,25 +19,12 @@ class Mine extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
-        primarySwatch: Colors.amber,
-        iconTheme: const IconThemeData(color: Colors.amber),
-        primaryTextTheme:
-            const TextTheme(titleLarge: TextStyle(color: Colors.black)),
-        textTheme: Theme.of(context)
-            .textTheme
-            .apply(bodyColor: Colors.black, displayColor: Colors.black),
-        fontFamily: 'Monotype Coursiva',
-      ),
-      home: const OrdersPage(),
-      debugShowCheckedModeBanner: false,
-    );
+    return OrdersPage();
   }
 }
 
 class OrdersPage extends StatefulWidget {
-  const OrdersPage({Key? key}) : super(key: key);
+  const OrdersPage({super.key}) ;
 
   @override
   State<OrdersPage> createState() => _OrdersPageState();
@@ -45,75 +33,129 @@ class OrdersPage extends StatefulWidget {
 class _OrdersPageState extends State<OrdersPage> {
   int currentTab = 0;
   late var findOrderCtr = TextEditingController();
+  final List<String> categories = [
+    'Tất\ncả',
+    'Đợi\nmua',
+    'Đã\nmua',
+    'Đã\nphát',
+    'Về\nkho',
+    'Khiếu\nnại',
+    'Thành\ncông',
+    'Đơn\nhuỷ'
+  ];
 
   @override
-  Widget build(BuildContext context) => DefaultTabController(
-        length: 8,
-        child: Scaffold(
-          appBar: AppBar(
-            actions: [
-              IconButton(
-                  icon: const Icon(
-                    Icons.search,
-                    color: Colors.yellowAccent,
-                  ),
-                  onPressed: (() {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const SearchPage()),
-                    );
-                  })),
-            ],
-            bottom: const TabBar(
-              labelStyle: TextStyle(fontWeight: FontWeight.bold),
-              labelColor: Colors.yellowAccent,
-              tabs: [
-                Tab(text: 'Tất\n cả'),
-                Tab(text: 'Đợi\n nmua'),
-                Tab(text: 'Đã\n mua'),
-                Tab(text: 'Đã\n phát'),
-                Tab(text: 'Về\n kho'),
-                Tab(text: 'Khiếu\n nại'),
-                Tab(text: 'Thành\n công'),
-                Tab(text: 'Đơn\n huỷ'),
-              ],
-            ),
-            backgroundColor: Colors.black,
-          ),
-          body: Container(
-            decoration: const BoxDecoration(
-              color: Colors.black,
-            ),
-            child: TabBarView(
-              children: [
-                Center(
-                  child: fixOrderAdminScreen(),
-                ),
-                Center(
-                  child: pendingOrderUserScreen(),
-                ),
-                Center(
-                  child: boughtOrderUserScreen(),
-                ),
-                Center(
-                  child: deleveriedOrderUserScreen(),
-                ),
-                Center(
-                  child: arriveredOrderUserScreen(),
-                ),
-                Center(
-                  child: complainOrderUserScreen(),
-                ),
-                Center(
-                  child: finishedOrderUserScreen(),
-                ),
-                Center(
-                  child: cancelOrderUserScreen(),
-                ),
-              ],
-            ),
-          ),
-        ),
-      );
+  Widget build(BuildContext context){
+    return Scaffold(
+      appBar: AppBar(actions: [],
+      backgroundColor: Colors.black,),
+      body: InfiniteScrollTabView(
+          contentLength: categories.length,
+          backgroundColor: Colors.black,
+          onTabTap: (index) {
+            debugPrint('You tapped: $index ');
+          },
+          tabBuilder: (index, isSelected) => Text(categories[index],
+              style: TextStyle(
+                  color: isSelected ? Colors.pink : Colors.amber,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18)),
+          pageBuilder: (context, index, _) {
+            if (index == 0) {
+              return  wholeOrdeUserScreen();
+            }
+            if (index == 1) {
+              return  pendingOrderUserScreen();
+            }
+            if (index == 2) {
+              return  boughtOrderUserScreen();
+            }
+            if (index == 3) {
+              return  deleveriedOrderUserScreen();
+            }
+            if (index == 4) {
+              return  arriveredOrderUserScreen();
+            }
+            if (index == 5) {
+              return  complainOrderUserScreen();
+            }
+            if (index == 6) {
+              return  finishedOrderUserScreen();
+            }
+             if (index == 7) {
+              return  cancelOrderUserScreen();
+            }
+            return const Text('HAHA');
+          }),
+    );
+  }
+  // => DefaultTabController(
+  //       length: 5,
+  //       child: Scaffold(
+  //         appBar: AppBar(
+  //           actions: [
+  //             IconButton(
+  //                 icon: const Icon(
+  //                   Icons.search,
+  //                   color: Colors.yellowAccent,
+  //                 ),
+  //                 onPressed: (() {
+  //                   Navigator.push(
+  //                     context,
+  //                     MaterialPageRoute(
+  //                         builder: (context) => const SearchPage()),
+  //                   );
+  //                 })),
+  //           ],
+  //           bottom:  const TabBar(
+  //             labelStyle: TextStyle(fontWeight: FontWeight.w200,fontSize: 10),
+  //             labelColor: Colors.yellowAccent,
+  //             tabs: [
+  //               Tab(text: "Tất\ncả"),
+  //               Tab(text: 'Đợi\nmua'),
+  //               Tab(text: 'Đã\nmua'),
+  //               Tab(text: 'Đã\nphát'),
+  //               Tab(text: 'Về\nkho'),
+  //               Tab(text: 'Khiếu\nnại'),
+  //               Tab(text: 'Thành\ncông'),
+  //               Tab(text: 'Đơn\nhuỷ'),
+  //             ],
+  //           ),
+  //           backgroundColor: Colors.black,
+  //         ),
+  //         body: Container(
+  //           decoration: const BoxDecoration(
+  //             color: Colors.black,
+  //           ),
+  //           child: TabBarView(
+  //             children: [
+  //               Center(
+  //                 child: wholeOrdeUserScreen(),
+  //               ),
+  //               Center(
+  //                 child: pendingOrderUserScreen(),
+  //               ),
+  //               Center(
+  //                 child: boughtOrderUserScreen(),
+  //               ),
+  //               Center(
+  //                 child: deleveriedOrderUserScreen(),
+  //               ),
+  //               Center(
+  //                 child: arriveredOrderUserScreen(),
+  //               ),
+  //               Center(
+  //                 child: complainOrderUserScreen(),
+  //               ),
+  //               Center(
+  //                 child: finishedOrderUserScreen(),
+  //               ),
+  //               Center(
+  //                 child: cancelOrderUserScreen(),
+  //               ),
+  //             ],
+  //           ),
+  //         ),
+  //       ),
+  //     );
 }

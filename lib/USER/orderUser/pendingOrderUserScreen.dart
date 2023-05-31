@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
 import '../../models/orders.dart';
 import '../../models/ordersmodel.dart';
 import 'package:intl/intl.dart';
+
+import '../../presentation/features/auth/auth_bloc.dart';
 
 final oCcy = NumberFormat("###.00", "en_US");
 final oCcVN = NumberFormat("###,###", "en_US");
@@ -27,13 +30,6 @@ class _pendingOrderUserScreenState extends State<pendingOrderUserScreen> {
     setState(() {});
   }
 
-  deleteItem(int itemId) async {
-    await putDeleteItem(itemId);
-
-    setState(() {
-      fetchDataPendingOrder(http.Client());
-    });
-  }
 
   @override
   void dispose() {
@@ -43,9 +39,13 @@ class _pendingOrderUserScreenState extends State<pendingOrderUserScreen> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return Scaffold(
+    return BlocBuilder<AuthBloc, AuthState>(
+      builder: (context, state) {
+        if (state is AuthenticatedState) {
+          return
+          Scaffold(
         body: FutureBuilder(
-      future: fetchDataPendingOrder(http.Client()),
+      future: fetchDataPendingOrder(http.Client(),state.user.userName ?? ""),
       builder: ((context, snapshot) {
         if (snapshot.hasData) {
           return Container(
@@ -86,25 +86,7 @@ class _pendingOrderUserScreenState extends State<pendingOrderUserScreen> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                TextButton(
-                                    style: ButtonStyle(
-                                      foregroundColor:
-                                          MaterialStateProperty.all<Color>(
-                                              Colors.redAccent),
-                                    ),
-                                    onPressed: () async {
-                                      deleteItem(items?[index].itemId ?? 0);
-                                    },
-                                    child: const Text('取消')),
-                                Text("${items?[index].itemUserName}",
-                                    style: const TextStyle(
-                                      color: Colors.amber,
-                                    )),
-                              ],
-                            ),
+                  
                             SizedBox(
                               width: 220,
                               child: Text("${items?[index].link}",
@@ -137,5 +119,11 @@ class _pendingOrderUserScreenState extends State<pendingOrderUserScreen> {
         return const Center(child: CircularProgressIndicator());
       }),
     ));
+
+  } else {
+          return Container();
+        }
+      },
+    );
   }
 }

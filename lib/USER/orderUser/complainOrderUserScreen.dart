@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
 import '../../models/orders.dart';
 import '../../models/ordersmodel.dart';
 import 'package:intl/intl.dart';
+
+import '../../presentation/features/auth/auth_bloc.dart';
 
 class complainOrderUserScreen extends StatefulWidget {
   @override
@@ -15,9 +18,13 @@ class _complainOrderUserScreenState extends State<complainOrderUserScreen> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return Scaffold(
+    return BlocBuilder<AuthBloc, AuthState>(
+      builder: (context, state) {
+        if (state is AuthenticatedState) {
+          return
+          Scaffold(
         body: FutureBuilder(
-      future: fetchDataComplainOrder(http.Client()),
+      future: fetchDataComplainOrder(http.Client(),state.user.userName ?? ""),
       builder: ((context, snapshot) {
         if (snapshot.hasData) {
           return OrdersList(orders: snapshot.data);
@@ -25,6 +32,11 @@ class _complainOrderUserScreenState extends State<complainOrderUserScreen> {
         return const Center(child: CircularProgressIndicator());
       }),
     ));
+   } else {
+          return Container();
+        }
+      },
+    );
   }
 }
 

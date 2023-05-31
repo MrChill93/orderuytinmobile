@@ -9,7 +9,7 @@ import '../ApiResponse.dart';
 Future<List<Order>> fetchDataBoughtOrder(http.Client client,String userName) async {
   var headers = {'Content-Type': 'application/json'};
   var request =
-      http.Request('GET', Uri.parse('http://localhost:8080/boughtOrder'));
+      http.Request('GET', Uri.parse('http://localhost:8080/boughtOrder/'));
 
   request.body = '''\n''';
   request.headers.addAll(headers);
@@ -42,7 +42,7 @@ Future<List<Order>> fetchDataDeleveriedOrder(http.Client client,String userName)
     "Connection": "Keep-Alive",
   };
   var request =
-      http.Request('GET', Uri.parse('http://localhost:8080/deleveriedOrder'));
+      http.Request('GET', Uri.parse('http://localhost:8080/deleveriedOrder/$userName'));
   request.body = '''\n''';
   request.headers.addAll(headers);
 
@@ -71,7 +71,7 @@ Future<List<Order>> fetchDataDeleveriedOrder(http.Client client,String userName)
 Future<List<Order>> fetchDataArriveredOrder(http.Client client,String userName) async {
   var headers = {'Content-Type': 'application/json'};
   var request =
-      http.Request('GET', Uri.parse('http://localhost:8080/arriveredOrder'));
+      http.Request('GET', Uri.parse('http://localhost:8080/arriveredOrder/$userName'));
   request.body = '''\n''';
   request.headers.addAll(headers);
 
@@ -99,7 +99,7 @@ Future<List<Order>> fetchDataArriveredOrder(http.Client client,String userName) 
 
 Future<List<Order>> fetchDataOrder(http.Client client,String userName) async {
   var headers = {'Content-Type': 'application/json'};
-  var request = http.Request('GET', Uri.parse('http://localhost:8080/order'));
+  var request = http.Request('GET', Uri.parse('http://localhost:8080/order/$userName'));
   request.body = '''\n''';
   request.headers.addAll(headers);
 
@@ -128,7 +128,7 @@ Future<List<Order>> fetchDataOrder(http.Client client,String userName) async {
 Future<List<Order>> fetchDataFinishedOrder(http.Client client,String userName) async {
   var headers = {'Content-Type': 'application/json'};
   var request =
-      http.Request('GET', Uri.parse('http://localhost:8080/finishedOrder'));
+      http.Request('GET', Uri.parse('http://localhost:8080/finishedOrder/$userName'));
   request.body = '''\n''';
   request.headers.addAll(headers);
 
@@ -183,10 +183,10 @@ Future<List<Order>> fetchFoundOrder(http.Client client, String orderNo) async {
   }
 }
 
-Future<List<Order>> fetchDataComplainOrder(http.Client client) async {
+Future<List<Order>> fetchDataComplainOrder(http.Client client,String userName) async {
   var headers = {'Content-Type': 'application/json'};
   var request =
-      http.Request('GET', Uri.parse('http://localhost:8080/complainOrder'));
+      http.Request('GET', Uri.parse('http://localhost:8080/complainOrder/$userName'));
   request.body = '''\n''';
   request.headers.addAll(headers);
 
@@ -212,39 +212,11 @@ Future<List<Order>> fetchDataComplainOrder(http.Client client) async {
   }
 }
 
-Future<List<Order>> fetchDataFixOrder(http.Client client) async {
+
+Future<List<Item>> fetchDataPendingOrder(http.Client client,String userName) async {
   var headers = {'Content-Type': 'application/json'};
   var request =
-      http.Request('GET', Uri.parse('http://localhost:8080/fixOrder'));
-  request.body = '''\n''';
-  request.headers.addAll(headers);
-
-  http.StreamedResponse response = await request.send();
-  try {
-    if (response.statusCode == 200) {
-      // print(await response.stream.bytesToString());
-      final data = await response.stream.bytesToString();
-      final dataParse = jsonDecode(data) as List;
-      print(dataParse.first); //
-      final orders = dataParse.map((item) {
-        return Order.fromJson(item);
-      }).toList();
-      print(orders.length);
-      return orders;
-    } else {
-      return [];
-      // print(response.reasonPhrase);
-    }
-  } catch (e) {
-    print("LOL $e");
-    return [];
-  }
-}
-
-Future<List<Item>> fetchDataPendingOrder(http.Client client) async {
-  var headers = {'Content-Type': 'application/json'};
-  var request =
-      http.Request('GET', Uri.parse('http://localhost:8080/pendingOrder'));
+      http.Request('GET', Uri.parse('http://localhost:8080/pendingOrder/$userName'));
   request.body = '''\n''';
   request.headers.addAll(headers);
 

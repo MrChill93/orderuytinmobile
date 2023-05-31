@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
 import '../../models/orders.dart';
 import '../../models/ordersmodel.dart';
 import 'package:intl/intl.dart';
+
+import '../../presentation/features/auth/auth_bloc.dart';
 
 class finishedOrderUserScreen extends StatefulWidget {
   @override
@@ -15,9 +18,13 @@ class _finishedOrderUserScreenState extends State<finishedOrderUserScreen> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return Scaffold(
+    return BlocBuilder<AuthBloc, AuthState>(
+      builder: (context, state) {
+        if (state is AuthenticatedState) {
+          return
+          Scaffold(
         body: FutureBuilder(
-      future: fetchDataFinishedOrder(http.Client()),
+      future: fetchDataFinishedOrder(http.Client(),state.user.userName ?? ""),
       builder: ((context, snapshot) {
         if (snapshot.hasData) {
           return OrdersList(orders: snapshot.data);
@@ -25,8 +32,14 @@ class _finishedOrderUserScreenState extends State<finishedOrderUserScreen> {
         return const Center(child: CircularProgressIndicator());
       }),
     ));
+   } else {
+          return Container();
+        }
+      },
+    );
   }
 }
+
 
 class OrdersList extends StatelessWidget {
   List<Order>? orders;
