@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "545660385810",
+    "project_id": "orderuytin",
+    "storage_bucket": "orderuytin.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:545660385810:android:b24626423b555af51cb6cb",
+        "android_client_info": {
+          "package_name": "com.example.orderuytinmobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "545660385810-cmuapsm38uir7tbcs1kc5fj2t1gq26hs.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB_R8dOX6LZVdtK8pu6AQmBgR9LvXekrWw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "545660385810-cmuapsm38uir7tbcs1kc5fj2t1gq26hs.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
