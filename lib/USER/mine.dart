@@ -34,12 +34,12 @@ class _OrdersPageState extends State<OrdersPage> {
   int currentTab = 0;
   late var findOrderCtr = TextEditingController();
   final List<String> categories = [
-    'Tất\ncả',
+    'Tất\n cả',
     'Đợi\nmua',
-    'Đã\nmua',
-    'Đã\nphát',
-    'Về\nkho',
-    'Khiếu\nnại',
+    ' Đã\nmua',
+    ' Đã\nphát',
+    ' Về\nkho',
+    'Khiếu\n  nại',
     'Thành\ncông',
     'Đơn\nhuỷ'
   ];
@@ -47,14 +47,22 @@ class _OrdersPageState extends State<OrdersPage> {
   @override
   Widget build(BuildContext context){
     return Scaffold(
-      appBar: AppBar(actions: [],
-      backgroundColor: Colors.black,),
+     appBar: AppBar(
+      backgroundColor: Colors.amber,
+              title: const Text("ORDER UY TÍN",
+              style:TextStyle(
+          color: Colors.black,
+          fontSize: 16,
+          fontWeight: FontWeight.bold,
+        ),),
+            ),
+      backgroundColor: Colors.black,
       body: InfiniteScrollTabView(
           contentLength: categories.length,
           backgroundColor: Colors.black,
-          onTabTap: (index) {
-            debugPrint('You tapped: $index ');
-          },
+          // onTabTap: (index) {
+          //   debugPrint('You tapped: $index ');
+          // },
           tabBuilder: (index, isSelected) => Text(categories[index],
               style: TextStyle(
                   color: isSelected ? Colors.pink : Colors.amber,

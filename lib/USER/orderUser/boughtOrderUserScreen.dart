@@ -20,18 +20,19 @@ class _boughtOrderUserScreenState extends State<boughtOrderUserScreen> {
       builder: (context, state) {
         if (state is AuthenticatedState) {
           return Scaffold(
-        body: SingleChildScrollView(
-      child: FutureBuilder(
-        future: fetchDataBoughtOrder(http.Client(),state.user.userName ?? ""),
-        builder: ((context, snapshot) {
-          if (snapshot.hasData) {
-            return OrdersList(orders: snapshot.data);
-          }
-          return const Center(child: CircularProgressIndicator());
-        }),
-      ),
-    ));
-   } else {
+              body: SingleChildScrollView(
+            child: FutureBuilder(
+              future: fetchDataBoughtOrder(
+                  http.Client(), state.user.userName ?? ""),
+              builder: ((context, snapshot) {
+                if (snapshot.hasData) {
+                  return OrdersList(orders: snapshot.data);
+                }
+                return const Center(child: CircularProgressIndicator());
+              }),
+            ),
+          ));
+        } else {
           return Container();
         }
       },
@@ -80,141 +81,148 @@ class OrdersList extends StatelessWidget {
             totalItemVnd = totalItemCny * ordercnYrateVnd!;
           }
           return GestureDetector(
-            child: Container(
-              padding: const EdgeInsets.all(2.0),
-              color: Colors.black,
               child: Container(
-                margin: const EdgeInsets.all(1),
-                decoration: BoxDecoration(
-                    color: Colors.black,
-                    border: Border.all(
-                      color: Colors.white,
-                      width: 2,
-                    ),
-                    borderRadius: BorderRadius.circular(10.0)),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                            DateFormat('yyyy-MM-dd')
-                                .format(orders?[idx].receivedDate),
-                            style: const TextStyle(
-                                color: Colors.yellowAccent,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 12.0)),
-                        Text('${orders?[idx].orderNo}',
-                            style: const TextStyle(
-                                color: Colors.yellowAccent,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 12.0)),
-                        Text('${orders?[idx].orderUserName}',
-                            style: const TextStyle(
-                                color: Colors.yellowAccent,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 12.0)),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        SizedBox(
-                          width: 300,
-                          child: ListView.builder(
-                            physics: const NeverScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                            itemCount: orders?[idx].items.length,
-                            itemBuilder: (context, index) {
-                              final Item? item = orders?[idx].items[index];
-                              num? itemPrice = item?.price;
-                              num? itemQuantity = item?.quantity;
-                              num? itemCNYrateVND = item?.cnYrateVnd;
-                              num? xiaojiYuan = itemPrice! * (itemQuantity!);
-                              num? xiaojiDun = itemPrice *
-                                  (itemQuantity) *
-                                  (itemCNYrateVND!);
-                              return Row(
-                                children: [
-                                  Container(
-                                    margin: const EdgeInsets.all(1.0),
-                                    child: Image.network(
-                                      fit: BoxFit.cover,
-                                      'http://www.orderuytin.com/image/item/${item?.image}',
-                                      width: 80,
-                                      height: 100,
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        SizedBox(
-                                          width: 220,
-                                          child: Text("${item?.link}",
-                                              style: const TextStyle(
-                                                overflow: TextOverflow.ellipsis,
-                                                color: Color.fromARGB(
-                                                    255, 243, 232, 200),
-                                                fontSize: 12,
-                                              )),
-                                        ),
-                                        Text("${item?.describle}",
-                                            style: const TextStyle(
-                                              color: Colors.yellowAccent,
-                                            )),
-                                        Text(
-                                            "${oCcy.format(item?.price)}¥ x ${item?.quantity}  = ${oCcy.format(xiaojiYuan)} ¥ \n x ${item?.cnYrateVnd} đ/¥ = ${oCcVN.format(xiaojiDun)} đ",
-                                            style: const TextStyle(
-                                                color: Colors.amber,
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.bold)),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              );
-                            },
+                  padding: const EdgeInsets.all(2.0),
+                  color: Colors.black,
+                  child: Container(
+                      margin: const EdgeInsets.all(1),
+                      decoration: BoxDecoration(
+                          color: Colors.black,
+                          border: Border.all(
+                            color: Colors.white,
+                            width: 2,
                           ),
+                          borderRadius: BorderRadius.circular(10.0)),
+                      child: Column(mainAxisSize: MainAxisSize.min, children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text(
+                                DateFormat('yyyy-MM-dd')
+                                    .format(orders?[idx].receivedDate),
+                                style: const TextStyle(
+                                    color: Colors.yellowAccent,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 12.0)),
+                            Text('${orders?[idx].orderNo}',
+                                style: const TextStyle(
+                                    color: Colors.yellowAccent,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 12.0)),
+                            
+                          ],
                         ),
-                        SizedBox(
-                          width: 120,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
+                        Row(children: [
+                          SizedBox(
+                            width: 270,
+                            child: ListView.builder(
+                              physics: const NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              itemCount: orders?[idx].items.length,
+                              itemBuilder: (context, index) {
+                                final Item? item = orders?[idx].items[index];
+                                num? itemPrice = item?.price;
+                                num? itemQuantity = item?.quantity;
+                                num? itemCNYrateVND = item?.cnYrateVnd;
+                                num? xiaojiYuan = itemPrice! * (itemQuantity!);
+                                num? xiaojiDun = itemPrice *
+                                    (itemQuantity) *
+                                    (itemCNYrateVND!);
+                                return Row(
+                                  children: [
+                                    Container(
+                                      margin: const EdgeInsets.all(1.0),
+                                      child: Image.network(
+                                        fit: BoxFit.cover,
+                                        'http://www.orderuytin.com/image/item/${item?.image}',
+                                        width: 80,
+                                        height: 100,
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          SizedBox(
+                                            width: 220,
+                                            child: Text("${item?.link}",
+                                                style: const TextStyle(
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  color: Color.fromARGB(
+                                                      255, 243, 232, 200),
+                                                  fontSize: 12,
+                                                )),
+                                          ),
+                                          Text("${item?.describle}",
+                                              style: const TextStyle(
+                                                color: Colors.yellowAccent,
+                                              )),
+                                          Text(
+                                              "${oCcy.format(item?.price)}¥ x ${item?.quantity}  = ${oCcy.format(xiaojiYuan)} ¥ \nx${item?.cnYrateVnd} đ/¥= ${oCcVN.format(xiaojiDun)} đ",
+                                              style: const TextStyle(
+                                                  color: Colors.amber,
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.bold)),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              },
+                            ),
+                          ),
+                          SizedBox(
+                            width: 150,
+                            child: Row(children: [
+                              Column(children: const [
+                                Text("Tổng(KO",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.bold,
+                                    )),
+                                Text("ship nđ)",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 10,
+                                    )),
+                                SizedBox(height: 10),
+                                Text("(SHIP nđ)",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 12,
+                                    )),
+                                SizedBox(height: 10),
+                                Text("Tổng(CÓ",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.bold,
+                                    )),
+                                Text("ship nđ)",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 10,
+                                    ))
+                              ]),
                               Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  Row(
-                                    children: [
-                                      const Text("商品总价:",
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 8,
-                                          )),
-                                      Text(" ${oCcy.format(totalItemCny)}¥ ",
-                                          style: const TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.bold,
-                                          )),
-                                    ],
-                                  ),
-                                  Text(" ( ${oCcVN.format(totalItemVnd)} đ )",
+                                  Text("${oCcVN.format(totalItemVnd)} đ",
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                      )),
+                                  Text("${oCcy.format(totalItemCny)}¥ ",
                                       style: const TextStyle(
                                         color: Colors.white,
                                         fontSize: 12,
-                                      )),
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  const Text("运费 :  ",
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 10,
                                       )),
                                   Text("${oCcy.format(shipFeeCny)} ¥  ",
                                       style: const TextStyle(
@@ -222,44 +230,32 @@ class OrdersList extends StatelessWidget {
                                         fontSize: 15,
                                         fontWeight: FontWeight.bold,
                                       )),
-                                ],
-                              ),
-                              Text(" ( ${oCcVN.format(shipFeeVnd)} đ )",
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 12,
-                                  )),
-                              Row(
-                                children: [
-                                  const Text("合计 :  ",
-                                      style: TextStyle(
+                                  Text(" ( ${oCcVN.format(shipFeeVnd)} đ )",
+                                      style: const TextStyle(
                                         color: Colors.white,
-                                        fontSize: 10,
+                                        fontSize: 12,
                                       )),
-                                  Text(
-                                      " ${oCcy.format(orders?[idx].totalCn)}¥ ",
+                                  Text("${oCcVN.format(orders?[idx].totalVn)}đ",
                                       style: const TextStyle(
                                         color: Colors.white,
                                         fontSize: 15,
                                         fontWeight: FontWeight.bold,
                                       )),
+                                  Text("${oCcy.format(orders?[idx].totalCn)}¥ ",
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 10,
+                                      )),
                                 ],
-                              ),
-                              Text("(${oCcVN.format(orders?[idx].totalVn)}đ) ",
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 12,
-                                  )),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          );
+                              )
+                            ]),
+                          )
+                        ])
+                      ]
+                      )
+                      )
+                      )
+                      );
         });
   }
 }

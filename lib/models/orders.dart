@@ -9,7 +9,7 @@ import '../ApiResponse.dart';
 Future<List<Order>> fetchDataBoughtOrder(http.Client client,String userName) async {
   var headers = {'Content-Type': 'application/json'};
   var request =
-      http.Request('GET', Uri.parse('http://localhost:8080/boughtOrder/'));
+      http.Request('GET', Uri.parse('http://localhost:8080/boughtOrder/$userName'));
 
   request.body = '''\n''';
   request.headers.addAll(headers);

@@ -136,11 +136,7 @@ class OrdersList extends StatelessWidget {
                                 overflow: TextOverflow.ellipsis,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 12.0)),
-                        Text('${orders?[idx].orderUserName}',
-                            style: const TextStyle(
-                                color: Colors.yellowAccent,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 12.0)),
+                        
                       ],
                     ),
                     SizedBox(
@@ -150,48 +146,39 @@ class OrdersList extends StatelessWidget {
                               color: Colors.white,
                               style: BorderStyle.solid,
                               width: 2),
-                          children: [
+                          children: const [
                             TableRow(children: [
-                              Column(children: const [
-                                Text('运单号',
+                              Center(
+                                child: Text('Mã vđ',
                                     style: TextStyle(
-                                        fontSize: 12.0, color: Colors.amber))
-                              ]),
-                              Column(children: const [
-                                Text('小计',
-                                    style: TextStyle(
-                                        fontSize: 12.0, color: Colors.amber))
-                              ]),
-                              SizedBox(
-                                width: MediaQuery.of(context).size.width,
-                                child: Column(children: const [
-                                  Text('KG',
-                                      style: TextStyle(
-                                          fontSize: 12.0, color: Colors.amber))
-                                ]),
+                                        fontSize: 12.0, color: Colors.amber)),
                               ),
-                              Column(children: const [
-                                Text('M3',
+                              Text('Thành tiền',
+                                  style: TextStyle(
+                                      fontSize: 12.0, color: Colors.amber)),
+                              Center(
+                                child: Text('KG',
                                     style: TextStyle(
-                                        fontSize: 12.0, color: Colors.amber))
-                              ]),
-                              Column(children: const [
-                                Text(
-                                  'KG汇率',
+                                        fontSize: 12.0, color: Colors.amber)),
+                              ),
+                              Center(
+                                child: Text('M3',
+                                    style: TextStyle(
+                                        fontSize: 12.0, color: Colors.amber)),
+                              ),
+                              Center(
+                                child: Text(
+                                  'Tỉ giá KG',
                                   style: TextStyle(
                                       fontSize: 12.0, color: Colors.amber),
-                                )
-                              ]),
-                              Column(children: const [
-                                Text('M3汇率',
+                                ),
+                              ),
+                              Center(
+                                child: Text('Tỉ giá M3',
                                     style: TextStyle(
-                                        fontSize: 12.0, color: Colors.amber))
-                              ]),
-                              Column(children: const [
-                                Text('',
-                                    style: TextStyle(
-                                        fontSize: 12.0, color: Colors.amber))
-                              ]),
+                                        fontSize: 12.0, color: Colors.amber)),
+                              ),
+                             
                             ]),
                           ]),
                     ),
@@ -283,15 +270,7 @@ class OrdersList extends StatelessWidget {
                                               color: Colors.amber)),
                                     )
                                   ]),
-                                  Column(children: const [
-                                    Padding(
-                                      padding: EdgeInsets.only(top: 10),
-                                      child: Text('取消',
-                                          style: TextStyle(
-                                              fontSize: 12.0,
-                                              color: Colors.amber)),
-                                    )
-                                  ]),
+                                  
                                 ]),
                               ],
                             );
@@ -300,14 +279,11 @@ class OrdersList extends StatelessWidget {
                     SizedBox(
                       width: 400,
                       child: Table(
-                          border: TableBorder.all(
-                              color: Colors.white,
-                              style: BorderStyle.solid,
-                              width: 2),
+                        
                           children: [
                             TableRow(children: [
                               Column(children: const [
-                                Text('合计',
+                                Text('Tổng cước',
                                     style: TextStyle(
                                         fontSize: 12.0, color: Colors.amber))
                               ]),
@@ -347,7 +323,7 @@ class OrdersList extends StatelessWidget {
                     Row(
                       children: [
                         SizedBox(
-                          width: 280,
+                          width: 260,
                           child: ListView.builder(
                             physics: const NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
@@ -414,12 +390,12 @@ class OrdersList extends StatelessWidget {
                                                   color: Colors.yellowAccent,
                                                 )),
                                             Text(
-                                                "退款数量: ${item?.quantityRefund ?? 0}",
+                                                "Số lượng hoàn tiền: ${item?.quantityRefund ?? 0}",
                                                 style: const TextStyle(
                                                   color: Colors.yellowAccent,
                                                 )),
                                             Text(
-                                                "退款价值: ${oCcVN.format(tuikuanDun)}",
+                                                "Giá trị tiền hoàn: ${oCcVN.format(tuikuanDun)}",
                                                 style: const TextStyle(
                                                   color: Colors.yellowAccent,
                                                 )),
@@ -434,62 +410,71 @@ class OrdersList extends StatelessWidget {
                           ),
                         ),
                         SizedBox(
-                          width: 130,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.center,
+                          width: 150,
+                          child: Row(
                             children: [
                               Column(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: const [
+                                  Text("TỔNG(KO\nShip nđ)",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 10,
+                                        fontWeight: FontWeight.bold
+                                      )),
+                               SizedBox(height: 15),
+                                  Text("Ship nđ  ",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 10,
+                                           fontWeight: FontWeight.bold
+                                      )),
+                                    SizedBox(height: 20),
+                                  Text("TỔNG(CÓ\nShip nđ) ",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 10,
+                                           fontWeight: FontWeight.bold
+                                      )),
+                                    SizedBox(height: 15),
+                                  Text("TỔNG\n(+cước) ",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 10,
+                                           fontWeight: FontWeight.bold
+                                      )),
+                                ],
+                              ),
+                                  Column(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  Row(
-                                    children: [
-                                      const Text("商品总价:",
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 8,
-                                          )),
-                                      Text(" ${oCcy.format(totalItemCny)}¥ ",
-                                          style: const TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.bold,
-                                          )),
-                                    ],
-                                  ),
+                                 
+                                  Text(" ${oCcy.format(totalItemCny)}¥ ",
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                      )),
                                   Text(" ( ${oCcVN.format(totalItemVnd)} đ )",
                                       style: const TextStyle(
                                         color: Colors.white,
                                         fontSize: 12,
                                       )),
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  const Text("运费 :  ",
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 10,
-                                      )),
+                               SizedBox(height: 10),
                                   Text("${oCcy.format(shipFeeCny)} ¥  ",
                                       style: const TextStyle(
                                         color: Colors.white,
                                         fontSize: 15,
                                         fontWeight: FontWeight.bold,
                                       )),
-                                ],
-                              ),
-                              Text(" ( ${oCcVN.format(shipFeeVnd)} đ )",
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 12,
-                                  )),
-                              Row(
-                                children: [
-                                  const Text("合计 :  ",
-                                      style: TextStyle(
+                                  Text(" ( ${oCcVN.format(shipFeeVnd)} đ )",
+                                      style: const TextStyle(
                                         color: Colors.white,
-                                        fontSize: 10,
+                                        fontSize: 12,
                                       )),
+                                SizedBox(height: 10),
                                   Text(
                                       " ${oCcy.format(orders?[idx].totalCn)}¥ ",
                                       style: const TextStyle(
@@ -497,20 +482,12 @@ class OrdersList extends StatelessWidget {
                                         fontSize: 15,
                                         fontWeight: FontWeight.bold,
                                       )),
-                                ],
-                              ),
-                              Text("(${oCcVN.format(orders?[idx].totalVn)}đ) ",
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 12,
-                                  )),
-                              Row(
-                                children: [
-                                  const Text("总计 : ",
-                                      style: TextStyle(
+                                  Text("(${oCcVN.format(orders?[idx].totalVn)}đ) ",
+                                      style: const TextStyle(
                                         color: Colors.white,
-                                        fontSize: 10,
+                                        fontSize: 12,
                                       )),
+                                 SizedBox(height: 10),
                                   Text("${oCcVN.format(total)}đ ",
                                       style: const TextStyle(
                                         color: Colors.white,

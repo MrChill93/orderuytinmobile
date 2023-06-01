@@ -19,18 +19,18 @@ class _wholeOrdeUserScreenState extends State<wholeOrdeUserScreen> {
     return BlocBuilder<AuthBloc, AuthState>(
       builder: (context, state) {
         if (state is AuthenticatedState) {
-          return
-          Scaffold(
-        body: FutureBuilder(
-      future: fetchDataOrder(http.Client(),state.user.userName ?? ""),
-      builder: ((context, snapshot) {
-        if (snapshot.hasData) {
-          return OrdersList(orders: snapshot.data);
-        }
-        return const Center(child: CircularProgressIndicator());
-      }),
-    ));
-  } else {
+          return Scaffold(
+            
+              body: FutureBuilder(
+            future: fetchDataOrder(http.Client(), state.user.userName ?? ""),
+            builder: ((context, snapshot) {
+              if (snapshot.hasData) {
+                return OrdersList(orders: snapshot.data);
+              }
+              return const Center(child: CircularProgressIndicator());
+            }),
+          ));
+        } else {
           return Container();
         }
       },
@@ -133,11 +133,6 @@ class OrdersList extends StatelessWidget {
                                 overflow: TextOverflow.ellipsis,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 12.0)),
-                        Text('${orders?[idx].orderUserName}',
-                            style: const TextStyle(
-                                color: Colors.yellowAccent,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 12.0)),
                       ],
                     ),
                     SizedBox(
@@ -147,48 +142,92 @@ class OrdersList extends StatelessWidget {
                               color: Colors.white,
                               style: BorderStyle.solid,
                               width: 2),
-                          children: [
+                          children:  [
                             TableRow(children: [
-                              Column(children: const [
-                                Text('运单号',
-                                    style: TextStyle(
-                                        fontSize: 12.0, color: Colors.amber))
-                              ]),
-                              Column(children: const [
-                                Text('小计',
-                                    style: TextStyle(
-                                        fontSize: 12.0, color: Colors.amber))
-                              ]),
-                              SizedBox(
-                                width: MediaQuery.of(context).size.width,
-                                child: Column(children: const [
-                                  Text('KG',
-                                      style: TextStyle(
-                                          fontSize: 12.0, color: Colors.amber))
-                                ]),
+                              TableCell(
+                                child: Flexible(
+                                  flex: 4,
+                                  child: Container(
+                                    padding: const EdgeInsets.all(5),
+                                    child: const Center(
+                                      child: Text('Mã vđ',
+                                          style: TextStyle(
+                                              fontSize: 12.0,
+                                              color: Colors.amber)),
+                                    ),
+                                  ),
+                                ),
                               ),
-                              Column(children: const [
-                                Text('M3',
-                                    style: TextStyle(
-                                        fontSize: 12.0, color: Colors.amber))
-                              ]),
-                              Column(children: const [
-                                Text(
-                                  'KG汇率',
-                                  style: TextStyle(
-                                      fontSize: 12.0, color: Colors.amber),
-                                )
-                              ]),
-                              Column(children: const [
-                                Text('M3汇率',
-                                    style: TextStyle(
-                                        fontSize: 12.0, color: Colors.amber))
-                              ]),
-                              Column(children: const [
-                                Text('',
-                                    style: TextStyle(
-                                        fontSize: 12.0, color: Colors.amber))
-                              ]),
+                               TableCell(
+                                child: Flexible(
+                                  flex: 3,
+                                  child: Container(
+                                     padding: const EdgeInsets.only(top:5,bottom: 5),
+                                    child: const Center(
+                                      child: Text('Thành tiền',
+                                          style: TextStyle(
+                                              fontSize: 12.0, color: Colors.amber)),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                               TableCell(
+                                child: Flexible(
+                                  flex: 1,
+                                  child: Container(
+                                     padding: const EdgeInsets.all(5),
+                                    child: const Center(
+                                      child: Text('KG',
+                                          style: TextStyle(
+                                              fontSize: 12.0,
+                                              color: Colors.amber)),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                               TableCell(
+                                child: Flexible(
+                                  flex: 1,
+                                  child: Container(
+                                     padding: const EdgeInsets.all(5),
+                                    child: const Center(
+                                      child: Text('M3',
+                                          style: TextStyle(
+                                              fontSize: 12.0,
+                                              color: Colors.amber)),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                                TableCell(
+                                child: Flexible(
+                                  flex: 1,
+                                  child: Container(
+                                     padding: const EdgeInsets.all(5),
+                                    child: const Center(
+                                      child: Text(
+                                        'Tỉ giá KG',
+                                        style: TextStyle(
+                                            fontSize: 12.0, color: Colors.amber),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                                TableCell(
+                                child: Flexible(
+                                  flex: 2,
+                                  child: Container(
+                                     padding: const EdgeInsets.all(5),
+                                    child: const Center(
+                                      child: Text('Tỉ giá M3',
+                                          style: TextStyle(
+                                              fontSize: 12.0,
+                                              color: Colors.amber)),
+                                    ),
+                                  ),
+                                ),
+                              ),
                             ]),
                           ]),
                     ),
@@ -208,57 +247,64 @@ class OrdersList extends StatelessWidget {
                             final WayBills? waybill =
                                 orders?[idx].waybills[index];
                             return Table(
+                              defaultColumnWidth: const FlexColumnWidth(1.0),
                               border: TableBorder.all(
                                   color: Colors.white,
                                   style: BorderStyle.solid,
                                   width: 2),
                               children: [
                                 TableRow(children: [
-                                  Column(children: [
-                                    Padding(
+                                  Flexible(
+                                    flex: 3,
+                                    child: Padding(
                                       padding: const EdgeInsets.all(5.0),
                                       child: Text(
                                           '${orders?[idx].waybills[index].wayBillCode}',
                                           style: const TextStyle(
                                               fontSize: 9.0,
                                               color: Colors.amber)),
-                                    )
-                                  ]),
-                                  Column(children: [
-                                    Align(
-                                      alignment: Alignment.center,
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(top: 10),
-                                        child: Text(oCcVN.format(freight),
-                                            style: const TextStyle(
-                                                fontSize: 10.0,
-                                                color: Colors.amber)),
-                                      ),
-                                    )
-                                  ]),
-                                  Column(children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 10),
+                                    ),
+                                  ),
+                                  Flexible(
+                                    flex: 3,
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 10, top: 10),
+                                      child: Text(oCcVN.format(freight),
+                                          style: const TextStyle(
+                                              fontSize: 10.0,
+                                              color: Colors.amber)),
+                                    ),
+                                  ),
+                                  Flexible(
+                                    flex: 1,
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 20, top: 10),
                                       child: Text(
                                           '${orders?[idx].waybills[index].kg}',
                                           style: const TextStyle(
                                               fontSize: 12.0,
                                               color: Colors.amber)),
-                                    )
-                                  ]),
-                                  Column(children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 10),
+                                    ),
+                                  ),
+                                  Flexible(
+                                    flex: 1,
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 20, top: 10),
                                       child: Text(
                                           '${orders?[idx].waybills[index].cubic}',
                                           style: const TextStyle(
                                               fontSize: 12.0,
                                               color: Colors.amber)),
-                                    )
-                                  ]),
-                                  Column(children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 10),
+                                    ),
+                                  ),
+                                  Flexible(
+                                    flex: 1,
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 5, top: 10),
                                       child: Text(
                                           oCcVN.format(orders?[idx]
                                               .waybills[index]
@@ -266,11 +312,13 @@ class OrdersList extends StatelessWidget {
                                           style: const TextStyle(
                                               fontSize: 12.0,
                                               color: Colors.amber)),
-                                    )
-                                  ]),
-                                  Column(children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 10),
+                                    ),
+                                  ),
+                                  Flexible(
+                                    flex: 1,
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 5, top: 10),
                                       child: Text(
                                           oCcVN.format(orders?[idx]
                                               .waybills[index]
@@ -278,73 +326,72 @@ class OrdersList extends StatelessWidget {
                                           style: const TextStyle(
                                               fontSize: 10.0,
                                               color: Colors.amber)),
-                                    )
-                                  ]),
-                                  Column(children: const [
-                                    Padding(
-                                      padding: EdgeInsets.only(top: 10),
-                                      child: Text('取消',
-                                          style: TextStyle(
-                                              fontSize: 12.0,
-                                              color: Colors.amber)),
-                                    )
-                                  ]),
+                                    ),
+                                  ),
                                 ]),
                               ],
                             );
                           }),
                     ),
-                    SizedBox(
-                      width: 400,
-                      child: Table(
-                          border: TableBorder.all(
-                              color: Colors.white,
-                              style: BorderStyle.solid,
-                              width: 2),
-                          children: [
-                            TableRow(children: [
-                              Column(children: const [
-                                Text('合计',
+                    Table(
+                        defaultColumnWidth: const FlexColumnWidth(7.0),
+                        children: [
+                          TableRow(children: [
+                            Flexible(
+                              flex: 4,
+                              child: Container(
+                                height: 20,
+                                child: const Center(
+                                  child: Text('Tổng cước',
+                                      style: TextStyle(
+                                          fontSize: 12.0, color: Colors.amber)),
+                                ),
+                              ),
+                            ),
+                            Flexible(
+                              flex: 4,
+                              child: Container(
+                                height: 20,
+                                child: Center(
+                                  child: Text(oCcVN.format(totalFreight),
+                                      style: const TextStyle(
+                                          fontSize: 12.0, color: Colors.amber)),
+                                ),
+                              ),
+                            ),
+                            Flexible(
+                              flex: 1,
+                              child: Container(
+                                height: 20,
+                                child: const Text('',
                                     style: TextStyle(
-                                        fontSize: 12.0, color: Colors.amber))
-                              ]),
-                              Column(children: [
-                                Text(oCcVN.format(totalFreight),
-                                    style: const TextStyle(
-                                        fontSize: 12.0, color: Colors.amber))
-                              ]),
-                              Column(children: const [
-                                Text('',
+                                        fontSize: 12.0, color: Colors.amber)),
+                              ),
+                            ),
+                            Flexible(
+                              flex: 1,
+                              child: Container(
+                                height: 20,
+                                child: const Text('',
                                     style: TextStyle(
-                                        fontSize: 12.0, color: Colors.amber))
-                              ]),
-                              Column(children: const [
-                                Text('',
+                                        fontSize: 12.0, color: Colors.amber)),
+                              ),
+                            ),
+                            Flexible(
+                              flex: 1,
+                              child: Container(
+                                height: 20,
+                                child: const Text('',
                                     style: TextStyle(
-                                        fontSize: 12.0, color: Colors.amber))
-                              ]),
-                              Column(children: const [
-                                Text('',
-                                    style: TextStyle(
-                                        fontSize: 12.0, color: Colors.amber))
-                              ]),
-                              Column(children: const [
-                                Text('',
-                                    style: TextStyle(
-                                        fontSize: 12.0, color: Colors.amber))
-                              ]),
-                              Column(children: const [
-                                Text('',
-                                    style: TextStyle(
-                                        fontSize: 12.0, color: Colors.amber))
-                              ]),
-                            ]),
+                                        fontSize: 12.0, color: Colors.amber)),
+                              ),
+                            ),
                           ]),
-                    ),
+                        ]),
                     Row(
                       children: [
                         SizedBox(
-                          width: 280,
+                          width: 250,
                           child: ListView.builder(
                             physics: const NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
@@ -392,7 +439,7 @@ class OrdersList extends StatelessWidget {
                                                   color: Colors.yellowAccent,
                                                 )),
                                             Text(
-                                                "${oCcy.format(item?.price)}¥ x ${item?.quantity}  = ${oCcy.format(xiaojiYuan)} ¥ \n x ${item?.cnYrateVnd} đ/¥ = ${oCcVN.format(xiaojiDun)} đ",
+                                                "${oCcy.format(item?.price)}¥x ${item?.quantity} =${oCcy.format(xiaojiYuan)}¥ \nx ${item?.cnYrateVnd} đ/¥ = ${oCcVN.format(xiaojiDun)}đ",
                                                 style: const TextStyle(
                                                     color: Colors.amber,
                                                     fontSize: 15,
@@ -409,62 +456,88 @@ class OrdersList extends StatelessWidget {
                           ),
                         ),
                         SizedBox(
-                          width: 130,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.center,
+                          width: 150,
+                          child: Row(
                             children: [
                               Column(
-                                children: [
-                                  Row(
-                                    children: [
-                                      const Text("商品总价:",
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 8,
-                                          )),
-                                      Text(" ${oCcy.format(totalItemCny)}¥ ",
-                                          style: const TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.bold,
-                                          )),
-                                    ],
-                                  ),
-                                  Text(" ( ${oCcVN.format(totalItemVnd)} đ )",
-                                      style: const TextStyle(
+                                children: const [
+                                  Text("TỔNG(KO",
+                                      style: TextStyle(
                                         color: Colors.white,
-                                        fontSize: 12,
+                                        fontSize: 10,
+                                         fontWeight: FontWeight.bold,
                                       )),
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  const Text("运费 :  ",
+                                  Text("ship nđ)",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 8,
+                                      )),
+                                      SizedBox(height: 10,),
+                                  Text("Ship nđ  ",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 10,
+                                         fontWeight: FontWeight.bold,
+                                      )),
+                                       SizedBox(height: 10,),
+                                  Text("TỔNG(CÓ  ",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 10,
+                                         fontWeight: FontWeight.bold,
+                                      )),
+                                  Text(" Ship nđ) ",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 8,
+                                       
+                                      )),
+                                       SizedBox(height: 10,),
+                                  Text("TỔNG ",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 10,
+                                         fontWeight: FontWeight.bold,
+                                      )),
+                                      Text("(+cước) ",
                                       style: TextStyle(
                                         color: Colors.white,
                                         fontSize: 10,
                                       )),
+                                ],
+                              ),
+                              Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                           
+                                  Text(
+                                      " ${oCcy.format(totalItemCny)}¥ ",
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                      )),
+                                  Text(
+                                      " ( ${oCcVN.format(totalItemVnd)} đ )",
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 12,
+                                      )),
+                               
                                   Text("${oCcy.format(shipFeeCny)} ¥  ",
                                       style: const TextStyle(
                                         color: Colors.white,
                                         fontSize: 15,
                                         fontWeight: FontWeight.bold,
                                       )),
-                                ],
-                              ),
-                              Text(" ( ${oCcVN.format(shipFeeVnd)} đ )",
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 12,
-                                  )),
-                              Row(
-                                children: [
-                                  const Text("合计 :  ",
-                                      style: TextStyle(
+                                  Text(" ( ${oCcVN.format(shipFeeVnd)} đ )",
+                                      style: const TextStyle(
                                         color: Colors.white,
-                                        fontSize: 10,
+                                        fontSize: 12,
                                       )),
+                             
                                   Text(
                                       " ${oCcy.format(orders?[idx].totalCn)}¥ ",
                                       style: const TextStyle(
@@ -472,20 +545,13 @@ class OrdersList extends StatelessWidget {
                                         fontSize: 15,
                                         fontWeight: FontWeight.bold,
                                       )),
-                                ],
-                              ),
-                              Text("(${oCcVN.format(orders?[idx].totalVn)}đ) ",
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 12,
-                                  )),
-                              Row(
-                                children: [
-                                  const Text("总计 : ",
-                                      style: TextStyle(
+                                  Text(
+                                      "(${oCcVN.format(orders?[idx].totalVn)}đ) ",
+                                      style: const TextStyle(
                                         color: Colors.white,
-                                        fontSize: 10,
+                                        fontSize: 12,
                                       )),
+                              
                                   Text("${oCcVN.format(total)}đ ",
                                       style: const TextStyle(
                                         color: Colors.white,
