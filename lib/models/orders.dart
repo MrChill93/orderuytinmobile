@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:http/http.dart' as http;
 import 'package:orderuytinmobile/models/ordersmodel.dart';
+import 'package:orderuytinmobile/models/statistic.dart';
 
 import '../ApiResponse.dart';
 
@@ -154,6 +155,21 @@ Future<List<Order>> fetchDataFinishedOrder(http.Client client,String userName) a
   }
 }
 
+Future<Statistic> fetchStatisticsClient(http.Client client,String userName) async {
+
+   final response = await http.get(Uri.parse('http://localhost:8080/statistics/$userName'));
+
+  if (response.statusCode == 200) {
+   
+    final jsonData = json.decode(response.body);
+    final statistic = Statistic.fromJson(jsonData);
+    return statistic;
+  } else {
+    throw Exception('Failed to fetch data');
+  }
+  
+}
+
 Future<List<Order>> fetchFoundOrder(http.Client client, String orderNo) async {
   var headers = {'Content-Type': 'application/json'};
   var request = http.Request(
@@ -241,10 +257,10 @@ Future<List<Item>> fetchDataPendingOrder(http.Client client,String userName) asy
   }
 }
 
-Future<List<Order>> fetchDataCancelOrder(http.Client client) async {
+Future<List<Order>> fetchDataCancelOrder(http.Client client, String userName) async {
   var headers = {'Content-Type': 'application/json'};
   var request =
-      http.Request('GET', Uri.parse('http://localhost:8080/cancelOrder'));
+      http.Request('GET', Uri.parse('http://localhost:8080/cancelOrder/$userName'));
   request.body = '''\n''';
   request.headers.addAll(headers);
 
@@ -269,10 +285,10 @@ Future<List<Order>> fetchDataCancelOrder(http.Client client) async {
   }
 }
 
-Future<List<Item>> fetchDataCancelItem(http.Client client) async {
+Future<List<Item>> fetchDataCancelItem(http.Client client, String itemUserName) async {
   var headers = {'Content-Type': 'application/json'};
   var request =
-      http.Request('GET', Uri.parse('http://localhost:8080/cancelItem'));
+      http.Request('GET', Uri.parse('http://localhost:8080/cancelItem/$itemUserName'));
   request.body = '''\n''';
   request.headers.addAll(headers);
 
@@ -311,11 +327,11 @@ Future<List<Item>> fetchDataItemInCart(
       // print(await response.stream.bytesToString());
       final data = await response.stream.bytesToString();
       final dataParse = jsonDecode(data) as List;
-      print(dataParse.first); //
+      // print(dataParse.first); //
       final items = dataParse.map((item) {
         return Item.fromJson(item);
       }).toList();
-      print(items.length);
+      // print(items.length);
       return items;
     } else {
       return [];
@@ -338,8 +354,26 @@ Future<void> fetchDeleteOrder(http.Client client, int orderId) async {
   await client.delete(Uri.parse('http://localhost:8080/order/$orderId'));
 }
 
-Future<void> putDeleteItem(int itemId) async {
+Future<void> putDeleteItem(http.Client client, int itemId) async {
   String url = 'http://localhost:8080/updateCancelItem/$itemId';
+
+  try {
+    final response = await http.put(Uri.parse(url));
+    print(response.body);
+  } catch (er) {}
+}
+
+Future<void> putBuyNowItem(http.Client client, int itemId) async {
+  String url = 'http://localhost:8080/putBuyNowItem/$itemId';
+
+  try {
+    final response = await http.put(Uri.parse(url));
+    print(response.body);
+  } catch (er) {}
+}
+
+Future<void> confirmSuccessOrder(http.Client client,int orderId) async {
+  String url = 'http://localhost:8080/confirmSuccessOrder/$orderId';
 
   try {
     final response = await http.put(Uri.parse(url));

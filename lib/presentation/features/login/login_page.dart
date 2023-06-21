@@ -262,11 +262,11 @@ class _LoginPageState extends State<LoginPage> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => HomePageOrder(
+                                      builder: (context) => HomeScreen(
                                           id: _usernameController.text)));
                               Navigator.of(context).push(
                                 MaterialPageRoute(
-                                  builder: (_) => HomePageOrder(
+                                  builder: (_) => HomeScreen(
                                       id: _usernameController.text),
                                 ),
                               );

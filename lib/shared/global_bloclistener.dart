@@ -43,7 +43,7 @@ class GlobalBlocListener extends StatelessWidget {
             Future.delayed(const Duration(seconds: 3)).then((value) {
               Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (_) => const HomePageOrder(
+                  builder: (_) => const HomeScreen(
                     id: "a",
                   ),
                 ),

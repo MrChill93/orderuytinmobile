@@ -137,7 +137,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
                       Navigator.of(context).pushAndRemoveUntil(
                           MaterialPageRoute(
-                              builder: (_) => HomePageOrder(
+                              builder: (_) => HomeScreen(
                                     id: p0.data?.user?.uid ?? "",
                                   )),
                           (route) => false);

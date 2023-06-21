@@ -24,10 +24,10 @@ class OrderuytinApp extends StatelessWidget {
           return MaterialPageRoute(builder: (_) => const LoginProvider());
         }
 
-        if (settings.name == HomePageOrder.nameRoute) {
+        if (settings.name == HomeScreen.nameRoute) {
           final String id = settings.arguments as String;
           return MaterialPageRoute<String>(
-              builder: (_) => HomePageOrder(
+              builder: (_) => HomeScreen(
                     id: id,
                   ));
         }

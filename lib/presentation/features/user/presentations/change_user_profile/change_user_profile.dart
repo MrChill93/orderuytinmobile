@@ -228,7 +228,7 @@ class _ChangeUserProfilePageState extends State<ChangeUserProfilePage> {
                           onSuccess: (result) {
                             Navigator.of(context).pop(newUser);
                             Navigator.of(context).pushNamed(
-                              HomePageOrder.nameRoute,
+                              HomeScreen.nameRoute,
                               arguments: {'user': newUser},
                             );
                           },

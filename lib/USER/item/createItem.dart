@@ -32,7 +32,7 @@ class _createItemPageState extends State<createItemPage> {
   //   }
   // }
 
-  var dropdownvalue;
+  // var dropdownvalue;
 
 // Getting value from TextField widget.
   late var linkCtr = TextEditingController();
@@ -41,9 +41,9 @@ class _createItemPageState extends State<createItemPage> {
   late var qtyCtr = TextEditingController();
   late var rateCtr = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-  num rate = 3500;
+  num rate = 3430;
 
-  Future<void> postData(String userName) async {
+  Future<void> buyNow(String userName) async {
     String link = linkCtr.text;
     String describle = desCtr.text;
     num? price = num.tryParse(priceCtr.text);
@@ -52,7 +52,7 @@ class _createItemPageState extends State<createItemPage> {
     String url = 'http://localhost:8080/createItem';
     Map<String, String> headers = {"Content-type": "application/json"};
     String json =
-        '{ "link": "$link",  "describle": "$describle", "price": $price, "quantity": $quantity, "itemStatus": "Cho xu ly", "image": null,  "cnYrateVnd": 3500,"itemUserName": "$userName","userNote": null,"adminNote": null, "refundDate": null, "quantityRefund": null, "orderId": null} ';
+        '{ "link": "$link",  "describle": "$describle", "price": $price, "quantity": $quantity, "itemStatus": "Cho xu ly", "image": "1686899092086image.png",  "CNYrateVND": 3430,"itemUserName": "$userName","userNote": null,"adminNote": null, "refundDate": null, "quantityRefund": null, "orderId": null} ';
     Response response =
         await post(Uri.parse(url), headers: headers, body: json);
 
@@ -60,6 +60,25 @@ class _createItemPageState extends State<createItemPage> {
     print('Body: ${response.body}');
     setState(() {});
   }
+
+Future<void> addCart(String userName) async {
+    String link = linkCtr.text;
+    String describle = desCtr.text;
+    num? price = num.tryParse(priceCtr.text);
+    num? quantity = num.tryParse(qtyCtr.text);
+
+    String url = 'http://localhost:8080/addCart';
+    Map<String, String> headers = {"Content-type": "application/json"};
+    String json =
+        '{ "link": "$link",  "describle": "$describle", "price": $price, "quantity": $quantity, "itemStatus": "Gio hang", "image": "1686899092086image.png",  "CNYrateVND": 3430,"itemUserName": "$userName","userNote": null,"adminNote": null, "refundDate": null, "quantityRefund": null, "orderId": null} ';
+    Response response =
+        await post(Uri.parse(url), headers: headers, body: json);
+
+    print('Status code: ${response.statusCode}');
+    print('Body: ${response.body}');
+    setState(() {});
+  }
+
 
   @override
   void initState() {
@@ -84,6 +103,9 @@ class _createItemPageState extends State<createItemPage> {
 
   @override
   Widget build(BuildContext context) {
+    final screenSize = MediaQuery.of(context).size;
+  final screenWidth = screenSize.width;
+  final screenHeight = screenSize.height;
     return BlocBuilder<AuthBloc, AuthState>(
       builder: (context, state) {
         if (state is AuthenticatedState) {
@@ -108,8 +130,7 @@ class _createItemPageState extends State<createItemPage> {
                           decoration: const InputDecoration(
                             hintText: "Hãy dán link zô đây !!!.",
                             labelText: 'Link',
-                            floatingLabelStyle: TextStyle(
-                                color: Colors.yellowAccent, fontSize: 20),
+                            floatingLabelStyle: TextStyle(color: Colors.yellowAccent, fontSize: 20),
                             labelStyle: TextStyle(
                                 color: Colors.yellowAccent, fontSize: 20),
                             hintStyle: TextStyle(
@@ -120,10 +141,9 @@ class _createItemPageState extends State<createItemPage> {
                             )),
                           ),
                           validator: (value) {
-                            return (value!.isEmpty)
-                                ? 'Link sản phẩm không thể bỏ trống.'
-                                : null;
+                            return (value!.isEmpty)? 'Link sản phẩm không thể bỏ trống.': null;
                           },
+                           keyboardType: TextInputType.text,
                           autovalidateMode: AutovalidateMode.always,
                         ),
                       ),
@@ -155,6 +175,7 @@ class _createItemPageState extends State<createItemPage> {
                                 ? 'Miêu tả sản phẩm bắt buộc phải nhập .'
                                 : null;
                           },
+                              keyboardType: TextInputType.text,
                           autovalidateMode: AutovalidateMode.always,
                         ),
                       ),
@@ -235,17 +256,18 @@ class _createItemPageState extends State<createItemPage> {
                       ),
                       Container(
                         padding: const EdgeInsets.only(
-                            top: 5, bottom: 5, right: 35, left: 35),
-                        margin: const EdgeInsets.all(5),
+                            top: 5, bottom: 5),
+                        margin: const EdgeInsets.only(
+                            top: 5, bottom: 5),
                         child: Row(
                           children: [
-                            const Text("Thành tiền (tệ): ",
+                            const Text("Thành tiền (tệ):       ",
                                 style: TextStyle(
-                                  fontSize: 20,
+                                  fontSize: 15,
                                   color: Colors.yellowAccent,
                                 )),
                             SizedBox(
-                              width: 120,
+                              width: screenWidth * 0.59,
                               height: 28,
                               child: Text(
                                   "${(double.tryParse(priceCtr.text.trim()) ?? 1) * (double.tryParse(qtyCtr.text.trim()) ?? 1)} ",
@@ -265,17 +287,18 @@ class _createItemPageState extends State<createItemPage> {
                       ),
                       Container(
                         padding: const EdgeInsets.only(
-                            top: 5, bottom: 5, right: 35, left: 35),
-                        margin: const EdgeInsets.all(5),
+                            top: 5, bottom: 5),
+                        margin: const EdgeInsets.only(
+                            top: 5, bottom: 5),
                         child: Row(
                           children: [
                             const Text("Thành tiền (Việt): ",
                                 style: TextStyle(
-                                  fontSize: 20,
+                                  fontSize: 15,
                                   color: Colors.yellowAccent,
                                 )),
                             SizedBox(
-                                width: 120,
+                                width: screenWidth * 0.59,
                                 height: 28,
                                 child: Text(
                                     "${(double.tryParse(priceCtr.text.trim()) ?? 1) * (double.tryParse(qtyCtr.text.trim()) ?? 1) * rate} ",
@@ -284,9 +307,9 @@ class _createItemPageState extends State<createItemPage> {
                                       fontWeight: FontWeight.bold,
                                       color: Colors.yellowAccent,
                                     ))),
-                            const Text(" đ ",
+                            const Text("     đ",
                                 style: TextStyle(
-                                  fontSize: 20,
+                                  fontSize: 15,
                                   color: Colors.yellowAccent,
                                 )),
                           ],
@@ -300,7 +323,10 @@ class _createItemPageState extends State<createItemPage> {
                               backgroundColor: MaterialStateProperty.all<Color>(
                                   Colors.yellowAccent),
                             ),
-                            onPressed: () {},
+                            onPressed: () {
+                              addCart(state.user.userName ?? "");
+                              refresh();
+                            },
                             child: Container(
                               child: const Text(
                                 'Thêm giỏ hàng',
@@ -317,7 +343,7 @@ class _createItemPageState extends State<createItemPage> {
                                   Colors.cyanAccent),
                             ),
                             onPressed: () {
-                              postData(state.user.userName ?? "");
+                              buyNow(state.user.userName ?? "");
                               refresh();
                             },
                             child: Container(
